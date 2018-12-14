@@ -38,7 +38,7 @@ THROTTLE            = 0x11
 PID_REQUEST         = 0x7DF
 PID_REPLY           = 0x7E8
 
-filename1 =datetime.now().strftime("%Y%M%D-%H%M%S")
+filename1 = datetime.now().strftime("%Y%M%D-%H%M%S")
 
 
 print('\n\rCAN Rx test')
