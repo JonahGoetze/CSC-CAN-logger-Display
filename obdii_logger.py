@@ -16,7 +16,10 @@ import can
 import time
 import os
 import queue
+import csv
+from datetime import datetime
 from threading import Thread
+
 
 led = 22
 GPIO.setmode(GPIO.BCM)
@@ -35,7 +38,7 @@ THROTTLE            = 0x11
 PID_REQUEST         = 0x7DF
 PID_REPLY           = 0x7E8
 
-outfile = open('log.txt','w')
+filename1 =datetime.now().strftime("%Y%M%D-%H%M%S")
 
 
 print('\n\rCAN Rx test')
@@ -102,28 +105,30 @@ count = 0
 
 # Main loop
 try:
-	while True:
-		for i in range(4):
-			while(q.empty() == True):	# Wait until there is a message
-				pass
-			message = q.get()
+	with open(filename1 +".csv", "w") as f:
+		writer = csv.writer(f)
+			while True:
+				for i in range(4):
+					while(q.empty() == True):	# Wait until there is a message
+						pass
+					message = q.get()
 
-			c = '{0:f},{1:d},'.format(message.timestamp,count)
-			if message.arbitration_id == PID_REPLY and message.data[2] == ENGINE_COOLANT_TEMP:
-				temperature = message.data[3] - 40			#Convert data into temperature in degree C
+					c = '{0:f},{1:d},'.format(message.timestamp,count)
+					if message.arbitration_id == PID_REPLY and message.data[2] == ENGINE_COOLANT_TEMP:
+						temperature = message.data[3] - 40			#Convert data into temperature in degree C
 
-			if message.arbitration_id == PID_REPLY and message.data[2] == ENGINE_RPM:
-				rpm = round(((message.data[3]*256) + message.data[4])/4)	# Convert data to RPM
+					if message.arbitration_id == PID_REPLY and message.data[2] == ENGINE_RPM:
+						rpm = round(((message.data[3]*256) + message.data[4])/4)	# Convert data to RPM
 
-			if message.arbitration_id == PID_REPLY and message.data[2] == VEHICLE_SPEED:
-				speed = message.data[3]										# Convert data to km
+					if message.arbitration_id == PID_REPLY and message.data[2] == VEHICLE_SPEED:
+						speed = message.data[3]										# Convert data to km
 
-			if message.arbitration_id == PID_REPLY and message.data[2] == THROTTLE:
-				throttle = round((message.data[3]*100)/255)					# Conver data to %
+					if message.arbitration_id == PID_REPLY and message.data[2] == THROTTLE:
+						throttle = round((message.data[3]*100)/255)					# Conver data to %
 
 		c += '{0:d},{1:d},{2:d},{3:d}'.format(temperature,rpm,speed,throttle)
 		print('\r {} '.format(c))
-		print(c,file = outfile) # Save data to file
+		writer.writerow(temperature, rpm, speed, throttle) # Write data to file
 		count += 1
 			
 
@@ -132,6 +137,5 @@ try:
 except KeyboardInterrupt:
 	#Catch keyboard interrupt
 	GPIO.output(led,False)
-	outfile.close()		# Close logger file
 	os.system("sudo /sbin/ip link set can0 down")
 	print('\n\rKeyboard interrtupt')	
