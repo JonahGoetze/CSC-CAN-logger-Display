@@ -107,24 +107,24 @@ count = 0
 try:
 	with open(filename1 +".csv", "w") as f:
 		writer = csv.writer(f)
-			while True:
-				for i in range(4):
-					while(q.empty() == True):	# Wait until there is a message
-						pass
-					message = q.get()
+		while True:
+			for i in range(4):
+				while(q.empty() == True):	# Wait until there is a message
+					pass
+				message = q.get()
 
-					c = '{0:f},{1:d},'.format(message.timestamp,count)
-					if message.arbitration_id == PID_REPLY and message.data[2] == ENGINE_COOLANT_TEMP:
-						temperature = message.data[3] - 40			#Convert data into temperature in degree C
+				c = '{0:f},{1:d},'.format(message.timestamp,count)
+				if message.arbitration_id == PID_REPLY and message.data[2] == ENGINE_COOLANT_TEMP:
+					temperature = message.data[3] - 40			#Convert data into temperature in degree C
 
-					if message.arbitration_id == PID_REPLY and message.data[2] == ENGINE_RPM:
-						rpm = round(((message.data[3]*256) + message.data[4])/4)	# Convert data to RPM
+				if message.arbitration_id == PID_REPLY and message.data[2] == ENGINE_RPM:
+					rpm = round(((message.data[3]*256) + message.data[4])/4)	# Convert data to RPM
 
-					if message.arbitration_id == PID_REPLY and message.data[2] == VEHICLE_SPEED:
-						speed = message.data[3]										# Convert data to km
+				if message.arbitration_id == PID_REPLY and message.data[2] == VEHICLE_SPEED:
+					speed = message.data[3]										# Convert data to km
 
-					if message.arbitration_id == PID_REPLY and message.data[2] == THROTTLE:
-						throttle = round((message.data[3]*100)/255)					# Conver data to %
+				if message.arbitration_id == PID_REPLY and message.data[2] == THROTTLE:
+					throttle = round((message.data[3]*100)/255)					# Conver data to %
 
 		c += '{0:d},{1:d},{2:d},{3:d}'.format(temperature,rpm,speed,throttle)
 		print('\r {} '.format(c))
