@@ -115,19 +115,20 @@ try:
 
 				c = '{0:f},{1:d},'.format(message.timestamp,count)
 				if message.arbitration_id == PID_REPLY and message.data[2] == ENGINE_COOLANT_TEMP:
-					temperature = message.data[3] - 40			#Convert data into temperature in degree C
+					temperature = ((message.data[3] - 40)*(9/5))+32			#Convert data into temperature in degrees F
 
 				if message.arbitration_id == PID_REPLY and message.data[2] == ENGINE_RPM:
 					rpm = round(((message.data[3]*256) + message.data[4])/4)	# Convert data to RPM
 
 				if message.arbitration_id == PID_REPLY and message.data[2] == VEHICLE_SPEED:
-					speed = message.data[3]										# Convert data to km
+					speed = message.data[3]						# Convert data to km
 
 				if message.arbitration_id == PID_REPLY and message.data[2] == THROTTLE:
-					throttle = round((message.data[3]*100)/255)					# Conver data to %
+					throttle = round((message.data[3]*100)/255)			# Conver data to throttle %
 
 		c += '{0:d},{1:d},{2:d},{3:d}'.format(temperature,rpm,speed,throttle)
 		print('\r {} '.format(c))
+		print(temperature, rpm, speed, throttle)
 		writer.writerow(temperature, rpm, speed, throttle) # Write data to file
 		count += 1
 			
