@@ -130,6 +130,7 @@ try:
 		print('\r {} '.format(c))
 		print(temperature, rpm, speed, throttle)
 		writer.writerow(temperature, rpm, speed, throttle) # Write data to file
+		f.flush()
 		count += 1
 			
 
