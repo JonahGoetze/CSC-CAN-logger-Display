@@ -124,7 +124,7 @@ try:
 
 			c += '{0:3.2f},{1:4d},{2:3d},{3:3d}'.format(temperature,rpm,speed,throttle)
 			print('\r {} '.format(c))
-			writer.writerow(temperature, rpm, speed, throttle) # Write data to file
+			writer.writerow((temperature, rpm, speed, throttle)) # Write data to file
 			f.flush()
 			count += 1
 			
