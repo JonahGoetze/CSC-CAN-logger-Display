@@ -101,8 +101,8 @@ count = 0
 try:
 	with open(filename1 +".csv", "w") as f:
 		writer = csv.writer(f)
+		writer.writerow("Timestamp","Count","Coolant Temp","RPM","Speed","Throttle %")
 		while True:
-			for i in range(4):
 				while(q.empty() == True):	# Wait until there is a message
 					pass
 				message = q.get()
@@ -120,12 +120,11 @@ try:
 				if message.arbitration_id == PID_REPLY and message.data[2] == THROTTLE:
 					throttle = round((message.data[3]*100)/255)			# Conver data to throttle %
 
-		c += '{0:d},{1:d},{2:d},{3:d}'.format(temperature,rpm,speed,throttle)
-		print('\r {} '.format(c))
-		print("Temp:",temperature, "RPM:", rpm, "SPEED:", speed, "THROTTLE%:", throttle)
-		writer.writerow(temperature, rpm, speed, throttle) # Write data to file
-		f.flush()
-		count += 1
+				c += '{0:d},{1:d},{2:d},{3:d}'.format(temperature,rpm,speed,throttle)
+				print('\r {} '.format(c))
+				writer.writerow(temperature, rpm, speed, throttle) # Write data to file
+				f.flush()
+				count += 1
 			
 
  
