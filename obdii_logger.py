@@ -102,7 +102,7 @@ count = 0
 # Main loop
 try:
 	with open(filename1 +".csv", "w") as f:
-		for i in range(4)
+		for i in range(4):
 			writer = csv.writer(f)
 			writer.writerow(("Timestamp","Count","Coolant Temp","RPM","Speed","Throttle %"))
 			while True:
