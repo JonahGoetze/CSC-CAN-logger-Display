@@ -101,7 +101,7 @@ count = 0
 try:
 	with open(filename1 +".csv", "w") as f:
 		writer = csv.writer(f)
-		writer.writerow("Timestamp","Count","Coolant Temp","RPM","Speed","Throttle %")
+		writer.writerow("Timestamp,Count,Coolant Temp,RPM,Speed,Throttle %")
 		while True:
 				while(q.empty() == True):	# Wait until there is a message
 					pass
