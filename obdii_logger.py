@@ -122,7 +122,7 @@ try:
 			if message.arbitration_id == PID_REPLY and message.data[2] == THROTTLE:
 				throttle = round((message.data[3]*100)/255)			# Conver data to throttle %
 
-			c += '{0:d},{1:d},{2:d},{3:d}'.format(temperature,rpm,speed,throttle)
+			c += '{0:3.2f},{1:4d},{2:3d},{3:3d}'.format(temperature,rpm,speed,throttle)
 			print('\r {} '.format(c))
 			writer.writerow(temperature, rpm, speed, throttle) # Write data to file
 			f.flush()
