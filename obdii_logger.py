@@ -102,32 +102,31 @@ count = 0
 # Main loop
 try:
 	with open(filename1 +".csv", "w") as f:
-		for i in range(4):
-			writer = csv.writer(f)
-			writer.writerow(("Timestamp","Count","Coolant Temp","RPM","Speed","Throttle %"))
-			while True:
-				while(q.empty() == True):	# Wait until there is a message
-					pass
-				message = q.get()
+		writer = csv.writer(f)
+		writer.writerow(("Timestamp","Count","Coolant Temp","RPM","Speed","Throttle %"))
+		while True:
+			while(q.empty() == True):	# Wait until there is a message
+				pass
+			message = q.get()
+			
+			c = '{0:f},{1:d},'.format(message.timestamp,count)
+			if message.arbitration_id == PID_REPLY and message.data[2] == ENGINE_COOLANT_TEMP:
+				temperature = ((message.data[3] - 40)*(9/5))+32			#Convert data into temperature in degrees F
 
-				c = '{0:f},{1:d},'.format(message.timestamp,count)
-				if message.arbitration_id == PID_REPLY and message.data[2] == ENGINE_COOLANT_TEMP:
-					temperature = ((message.data[3] - 40)*(9/5))+32			#Convert data into temperature in degrees F
+			if message.arbitration_id == PID_REPLY and message.data[2] == ENGINE_RPM:
+				rpm = round(((message.data[3]*256) + message.data[4])/4)	# Convert data to RPM
 
-				if message.arbitration_id == PID_REPLY and message.data[2] == ENGINE_RPM:
-					rpm = round(((message.data[3]*256) + message.data[4])/4)	# Convert data to RPM
+			if message.arbitration_id == PID_REPLY and message.data[2] == VEHICLE_SPEED:
+				speed = message.data[3]						# Convert data to km
 
-				if message.arbitration_id == PID_REPLY and message.data[2] == VEHICLE_SPEED:
-					speed = message.data[3]						# Convert data to km
+			if message.arbitration_id == PID_REPLY and message.data[2] == THROTTLE:
+				throttle = round((message.data[3]*100)/255)			# Conver data to throttle %
 
-				if message.arbitration_id == PID_REPLY and message.data[2] == THROTTLE:
-					throttle = round((message.data[3]*100)/255)			# Conver data to throttle %
-
-				c += '{0:d},{1:d},{2:d},{3:d}'.format(temperature,rpm,speed,throttle)
-				print('\r {} '.format(c))
-				writer.writerow(temperature, rpm, speed, throttle) # Write data to file
-				f.flush()
-				count += 1
+			c += '{0:d},{1:d},{2:d},{3:d}'.format(temperature,rpm,speed,throttle)
+			print('\r {} '.format(c))
+			writer.writerow(temperature, rpm, speed, throttle) # Write data to file
+			f.flush()
+			count += 1
 			
 
  
