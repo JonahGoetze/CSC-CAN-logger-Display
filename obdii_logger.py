@@ -3,12 +3,8 @@
 ## obdii_logger.py
 # 
 # This python3 program sends out OBDII request then logs the reply to the sd card.
-# For use with PiCAN boards on the Raspberry Pi
-# http://skpang.co.uk/catalog/pican2-canbus-board-for-raspberry-pi-2-p-1475.html
-#
 # Make sure Python-CAN is installed first http://skpang.co.uk/blog/archives/1220
 #
-#  24-08-16 SK Pang
 #
 
 import RPi.GPIO as GPIO
