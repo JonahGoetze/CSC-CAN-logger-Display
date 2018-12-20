@@ -103,7 +103,7 @@ count = 0
 try:
 	with open(filename1 +".csv", "w") as f:
 		writer = csv.writer(f)
-		writer.writerow(("Timestamp","Count","Coolant Temp","RPM","Speed","Throttle %"))
+		writer.writerow(("Count","Coolant Temp","RPM","Speed","Throttle %"))
 		while True:
 			while(q.empty() == True):	# Wait until there is a message
 				pass
@@ -124,7 +124,7 @@ try:
 
 			c += '{0:3.2f},{1:4d},{2:3d},{3:3d}'.format(temperature,rpm,speed,throttle)
 			print('\r {} '.format(c))
-			writer.writerow((temperature, rpm, speed, throttle)) # Write data to file
+			writer.writerow((count,temperature, rpm, speed, throttle)) # Write data to file
 			f.flush()
 			count += 1
 			
