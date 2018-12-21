@@ -1,0 +1,137 @@
+#:kivy 1.0.9
+
+<Gague>:    
+    
+    canvas:
+        Color:
+            rgba: 0.2,0.2,0.2,1,
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    Label:
+        text: "{1:5d} {0}".format(root.title, root.value) if not isinstance(root.value, float) else "{1:5.2f} {0}".format(root.title, root.value)
+        font_size: 24
+        font_name: "DejaVuSansMono"
+        pos: root.pos[0]+120, root.pos[1]-4
+        halign: "left"
+        valign: "bottom"
+        text_size: 300, None
+
+    Widget:
+        canvas:
+            Color:
+                rgba: 0.3,0.3,0.3,1,
+            Rectangle:
+                pos: root.pos[0], root.pos[1] 
+                size: root.width, root.height*.5
+    Widget:
+        canvas:
+            Color:
+                rgb: root.bar_color
+            Rectangle:
+                pos: root.pos[0], root.pos[1] 
+                size: root.current_gague_width, root.height*.5
+    Widget:
+        canvas:
+            Color:
+                rgb: 0.7, 0.7, 0.7
+            Rectangle:
+                pos: root.pos[0]+(root.threshold_1/root.max_value)*root.width, root.pos[1] 
+                size: (3, root.height*.75) if root.threshold_1 != 0 else (0,0)
+    Widget:
+        canvas:
+            Color:
+                rgb: 0.7, 0.7, 0.7
+            Rectangle:
+                pos: root.pos[0]+(root.threshold_2/root.max_value)*root.width, root.pos[1] 
+                size: (3, root.height*.75) if root.threshold_2 != 0 else (0,0)
+    Widget:
+        canvas:
+            Color:
+                rgb: 0.7, 0.7, 0.7
+            Rectangle:
+                pos: root.pos[0]+(root.threshold_3/root.max_value)*root.width, root.pos[1] 
+                size: (3, root.height*.75) if root.threshold_3 != 0 else (0,0)
+
+
+        
+
+<Root>:
+    throttle_gague: throttle
+    speed_gague: speed
+    rpm_gague: rpm
+    temp_gague: temp
+
+    canvas.before:
+        Color:
+            rgba: 0.1, 0.1, 0.1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    ActionBar:
+        pos: 0, root.height-self.height
+        width: root.width
+
+        ActionView:
+            use_separator: True
+            ActionPrevious:
+                title: 'Action Bar'
+                with_previous: False
+            ActionOverflow:
+            ActionButton:
+                important: True
+                text: 'Temperature'
+            ActionButton:
+                important: True
+                text: 'RPM'
+            ActionButton:
+                important: True
+                text: 'Speed'
+            ActionButton:
+                important: True
+                text: 'Throttle'
+
+    Gague:
+        id: temp
+        title: "Temperature"
+        center: root.width/2, root.height*.15
+        size: self.parent.width*.8, 60
+
+        threshold_1: 216
+        threshold_2: 300
+        threshold_3: 350
+        max_value: 400
+
+    Gague:
+        id: rpm
+        title: "RPM"
+        center: root.width/2, root.height*.35
+        size: self.parent.width*.8, 60
+
+        threshold_1: 5000
+        threshold_2: 7000
+        threshold_3: 8000
+        max_value: 10000
+
+    Gague:
+        id: speed
+        title: "Speed"
+        center: root.width/2, root.height*.55
+        size: self.parent.width*.8, 60
+
+        threshold_1: 0
+        threshold_2: 60
+        threshold_3: 70
+        max_value: 80
+
+    Gague:
+        id: throttle
+        title: "Throttle"
+        center: root.width/2, root.height*.75
+        size: self.parent.width*.8, 60
+
+        threshold_1: 0
+        threshold_2: 0
+        threshold_3: 90
+        max_value: 100
