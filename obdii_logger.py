@@ -15,8 +15,36 @@ import queue
 import csv
 from datetime import datetime
 from threading import Thread
+import board
+import busio
+import adafruit_gps
+import serial
 
+#uart = serial.Serial("/dev/ttyUSB0", baudrate=9600, timeout=3000)
 
+#! Create a GPS module instance.
+#speed=0
+#gps = adafruit_gps.GPS(uart, debug=False)
+#gps.send_command(b'PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0')
+#gps.send_command(b'PMTK220,500')
+#last_print = time.monotonic()
+#while True:
+    #! Make sure to call gps.update() every loop iteration and at least twice
+    #! as fast as data comes from the GPS unit (usually every second).
+    #! This returns a bool that's true if it parsed new data (you can ignore it
+    #! though if you don't care and instead look at the has_fix property).
+    #gps.update()
+    #current = time.monotonic()
+    #if current - last_print >= 1.0:
+        #last_print = current
+        #if not gps.has_fix:
+            #! Try again if we don't have a fix yet
+	    #print('Waiting for fix...')
+            #continue
+        # We have a fix! (gps.has_fix is true)
+    #if gps.track_angle_deg is not None:
+            #speed=(('{}'.format(gps.speed_knots))*1.15078) #!convert knots to mph
+	
 led = 22
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -103,7 +131,7 @@ count = 0
 try:
 	with open(filename1 +".csv", "w") as f:
 		writer = csv.writer(f)
-		writer.writerow(("Timestamp","Count","Coolant Temp","RPM","Speed","Throttle %"))
+		writer.writerow(("Count","Coolant Temp","RPM","Speed","Throttle %"))
 		while True:
 			while(q.empty() == True):	# Wait until there is a message
 				pass
@@ -124,7 +152,7 @@ try:
 
 			c += '{0:3.2f},{1:4d},{2:3d},{3:3d}'.format(temperature,rpm,speed,throttle)
 			print('\r {} '.format(c))
-			writer.writerow((temperature, rpm, speed, throttle)) # Write data to file
+			writer.writerow((count,temperature, rpm, speed, throttle)) # Write data to file
 			f.flush()
 			count += 1
 			
