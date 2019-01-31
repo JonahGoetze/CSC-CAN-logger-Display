@@ -27,8 +27,8 @@ import serial
 #gps = adafruit_gps.GPS(uart, debug=False)
 #gps.send_command(b'PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0')
 #gps.send_command(b'PMTK220,500')
-last_print = time.monotonic()
-while True:
+#last_print = time.monotonic()
+#while True:
     #! Make sure to call gps.update() every loop iteration and at least twice
     #! as fast as data comes from the GPS unit (usually every second).
     #! This returns a bool that's true if it parsed new data (you can ignore it
@@ -42,8 +42,9 @@ while True:
 	    #print('Waiting for fix...')
             #continue
         # We have a fix! (gps.has_fix is true)
- #if gps.track_angle_deg is not None:
+    #if gps.track_angle_deg is not None:
             #speed=(('{}'.format(gps.speed_knots))*1.15078) #!convert knots to mph
+	
 led = 22
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
