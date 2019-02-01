@@ -55,7 +55,6 @@
 
 
         
-
 <Root>:
     throttle_gague: throttle
     speed_gague: speed
@@ -69,28 +68,6 @@
             pos: self.pos
             size: self.size
 
-    ActionBar:
-        pos: 0, root.height-self.height
-        width: root.width
-
-        ActionView:
-            use_separator: True
-            ActionPrevious:
-                title: 'Action Bar'
-                with_previous: False
-            ActionOverflow:
-            ActionButton:
-                important: True
-                text: 'Temperature'
-            ActionButton:
-                important: True
-                text: 'RPM'
-            ActionButton:
-                important: True
-                text: 'Speed'
-            ActionButton:
-                important: True
-                text: 'Throttle'
 
     Gague:
         id: temp
