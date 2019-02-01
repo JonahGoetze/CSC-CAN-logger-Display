@@ -83,7 +83,8 @@ class GpsReader(Process):
 
     def _update_fake_speed(self):
         current = time.monotonic()
-        if current - self.last_timestamp >= 1.0:
+        if current - self.last_timestamp >= 0.1:
+            self.last_timestamp = current
             self.speed = random.randint(10, 55)
 
     def shutdown(self):

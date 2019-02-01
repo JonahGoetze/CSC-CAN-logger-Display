@@ -52,7 +52,11 @@ class Root(Widget):
     temp_gague = ObjectProperty(None)
     count = 0
 
-    speed = 0
+    gps_speed = 0
+    engine_speed = 0
+    rpm = 0
+    throttle = 0
+    coolant_temp = 0
 
     def update(self, delta):
         if self.count < 100:
@@ -61,11 +65,17 @@ class Root(Widget):
             self.count = max(self.count-random.randint(0, 50), 0)
 
         try:
-            self.speed = self.gps_queue.get_nowait()
+            self.gps_speed = self.gps_queue.get_nowait()
         except Q.Empty as e:
             pass # don't change speed
 
-        self.speed_gague.set_value(self.speed)
-        self.rpm_gague.set_value(int(self.count/100 * self.rpm_gague.max_value))
-        self.throttle_gague.set_value(int(self.count/100 * self.throttle_gague.max_value))
-        self.temp_gague.set_value(self.count/100 * self.temp_gague.max_value)
+        try:
+            self.engine_speed, self.rpm, self.throttle, self.coolant_temp = self.obdii_queue.get_nowait()
+        except Q.Empty as e:
+            pass # don't change speed
+
+
+        self.speed_gague.set_value(self.gps_speed)
+        self.rpm_gague.set_value(self.rpm)
+        self.throttle_gague.set_value(self.throttle)
+        self.temp_gague.set_value(self.coolant_temp)

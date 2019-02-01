@@ -18,6 +18,7 @@ Config.set('graphics', 'allow_screensaver', 0)
 Config.write()
 
 from gps_reader import GpsReader
+from obdii_reader import ObdiiReader
 
 
 class VisApp(App):
@@ -36,9 +37,15 @@ class VisApp(App):
         self.gps_reader = GpsReader(self.gps_queue, "gps_log.csv", test)
         self.gps_reader.start()
 
+        self.obdii_queue = Queue(1)
+        self.root.obdii_queue = self.obdii_queue
+        self.obdii_reader = ObdiiReader(self.obdii_queue, "obdii_log.csv", test)
+        self.obdii_reader.start()
+
 
     def on_stop(self):
         self.gps_reader.shutdown()
+        self.obdii_reader.shutdown()
 
 
 if __name__ == '__main__':
