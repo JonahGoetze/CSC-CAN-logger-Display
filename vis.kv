@@ -71,14 +71,14 @@
 
     Gague:
         id: temp
-        title: "Temperature"
+        title: "Coolant Temperature"
         center: root.width/2, root.height*.15
         size: self.parent.width*.8, 60
 
-        threshold_1: 216
-        threshold_2: 300
-        threshold_3: 350
-        max_value: 400
+        threshold_1: 0
+        threshold_2: 0
+        threshold_3: 210
+        max_value: 230
 
     Gague:
         id: rpm
@@ -86,10 +86,10 @@
         center: root.width/2, root.height*.35
         size: self.parent.width*.8, 60
 
-        threshold_1: 5000
-        threshold_2: 7000
-        threshold_3: 8000
-        max_value: 10000
+        threshold_1: 0
+        threshold_2: 0
+        threshold_3: 4250
+        max_value: 4500
 
     Gague:
         id: speed
@@ -98,9 +98,9 @@
         size: self.parent.width*.8, 60
 
         threshold_1: 0
-        threshold_2: 60
-        threshold_3: 70
-        max_value: 80
+        threshold_2: 0
+        threshold_3: 0
+        max_value: 70
 
     Gague:
         id: throttle
@@ -110,5 +110,5 @@
 
         threshold_1: 0
         threshold_2: 0
-        threshold_3: 90
+        threshold_3: 0
         max_value: 100
