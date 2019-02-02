@@ -10,7 +10,7 @@ import queue
 import csv
 from datetime import datetime
 from threading import Thread
-
+led = 22
 try:
     import serial
 except:
@@ -67,7 +67,6 @@ class ObdiiReader(Process):
         self.last_timestamp = time.monotonic()
 
     def _setup_obdii(self):
-        led = 22
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         GPIO.setup(led,GPIO.OUT)
