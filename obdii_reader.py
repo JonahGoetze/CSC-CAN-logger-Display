@@ -2,8 +2,8 @@ from multiprocessing import Process, Event
 import queue as Q
 import time
 import random
-import csv
-
+import RPi.GPIO as GPIO
+import can
 import time
 import os
 import queue
