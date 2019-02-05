@@ -90,7 +90,7 @@ class GpsReader(Process):
         current = time.monotonic()
         if current - self.last_timestamp >= 0.1:
             self.last_timestamp = current
-            self.speed = random.randint(10, 55)
+            self.speed = random.randint(0, 50)
 
     def shutdown(self):
         print("Shutting Down GPS Reader")
