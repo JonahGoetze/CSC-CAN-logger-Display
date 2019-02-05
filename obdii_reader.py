@@ -187,10 +187,10 @@ class ObdiiReader(Process):
 
 
     def _update_fake_stats(self):
-        self.speed = random.randint(10, 100)
+        self.speed = random.randint(0, 100)
         self.throttle = random.randint(0, 100)
-        self.rpm= random.randint(5e3, 6e3)
-        self.coolant_temp = random.randint(0, 200)
+        self.rpm= random.randint(0, 4500)
+        self.coolant_temp = random.randint(0, 250)
 
 
     def shutdown(self):
