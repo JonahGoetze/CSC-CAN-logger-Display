@@ -59,23 +59,24 @@ class Root(Widget):
     coolant_temp = 0
 
     def update(self, delta):
-        if self.count < 100:
-            self.count = min(self.count+1, 100)
-        else:
-            self.count = max(self.count-random.randint(0, 50), 0)
+        #if self.count < 100:
+        #    self.count = min(self.count+1, 100)
+        #else:
+        #    self.count = max(self.count-random.randint(0, 50), 0)
 
         try:
             self.gps_speed = self.gps_queue.get_nowait()
+            self.gps_speed = self.gps_speed if self.gps_speed > 3 else 0
         except Q.Empty as e:
             pass # don't change speed
 
-        try:
-            self.engine_speed, self.rpm, self.throttle, self.coolant_temp = self.obdii_queue.get_nowait()
-        except Q.Empty as e:
-            pass # don't change speed
+        #try:
+        #    self.engine_speed, self.rpm, self.throttle, self.coolant_temp = self.obdii_queue.get_nowait()
+        #except Q.Empty as e:
+        #    pass # don't change speed
 
 
         self.speed_gague.set_value(self.gps_speed)
-        self.rpm_gague.set_value(self.rpm)
-        self.throttle_gague.set_value(self.throttle)
-        self.temp_gague.set_value(self.coolant_temp)
+        #self.rpm_gague.set_value(self.rpm)
+        #self.throttle_gague.set_value(self.throttle)
+        #self.temp_gague.set_value(self.coolant_temp)

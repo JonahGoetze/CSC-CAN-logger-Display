@@ -3,16 +3,26 @@ import queue as Q
 import time
 import random
 import csv
-import board
-import busio
-import adafruit_gps
-import serial
 
 try:
     import adafruit_gps
 except:
     print("adafruit_gps library not installed. Continuing.")
 
+try:
+    import board
+except:
+    print("board library not installed. Continuing.")
+
+try:
+    import busio
+except:
+    print("busiolibrary not installed. Continuing.")
+
+try:
+    import serial
+except:
+    print("serial not installed. Continuing.")
 
 class GpsReader(Process):
 
@@ -33,7 +43,7 @@ class GpsReader(Process):
     def _setup_gps(self):
 
         uart = serial.Serial("/dev/ttyUSB0", baudrate=9600, timeout=3000)
-        
+
         # Create a GPS module instance.
         self.gps = adafruit_gps.GPS(uart, debug=False)
         self.gps.send_command(b'PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0')
